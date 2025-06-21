@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+*.env
+
+# FastAPI
+instance/
+*.db
+*.sqlite3
+
+# ML/DS
+*.h5
+*.hdf5
+*.ckpt
+*.pth
+*.pt
+*.joblib
+*.pkl
+*.npz
+*.npy
+*.csv
+*.tsv
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# dotenv
+.env
+.env.*
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Build
+build/
+dist/
+*.egg-info/
+.eggs/
+MANIFEST
+
+# Logs
+*.log
+
+# Misc
+*.bak
+*.swp
+*.tmp
