@@ -28,13 +28,9 @@ instance/
 *.pkl
 *.npz
 *.npy
-*.csv
 *.tsv
 *.log
 
-# Jupyter
-.ipynb_checkpoints/
-*.ipynb
 
 # VSCode
 .vscode/
