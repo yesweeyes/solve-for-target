@@ -1,22 +1,62 @@
 import re
 
-def util_clean_product_name(product_name: str) -> str:
+import re
+
+import re
+
+def remove_duplicate_product_name(product_name: str) -> str:
     """
-    Clean the product name by removing special characters and converting to lowercase.
+    Remove duplicated product names if the name is repeated consecutively.
 
     Parameters:
-    product_name (str): The original product name.
+    product_name (str): The raw product name.
 
+    Returns:
+    str: Cleaned product name with duplicates removed.
+    """
+    if not product_name:
+        return ""
+
+    # Normalize whitespaces and lowercase
+    name = product_name.lower().strip()
+    name = re.sub(r'\s+', ' ', name)
+
+    # Split by space and check halves
+    tokens = name.split()
+    half = len(tokens) // 2
+
+    if len(tokens) % 2 == 0 and tokens[:half] == tokens[half:]:
+        return ' '.join(tokens[:half])
+    return name
+
+
+def util_clean_product_name(product_name: str) -> str:
+    """
+    Clean the product name by removing special characters, HTML artifacts, and normalizing text.
+    
+    Parameters:
+    product_name (str): The original product name.
+    
     Returns:
     str: Cleaned product name.
     """
-    
-    cleaned_name = str(product_name).lower().strip()
-    cleaned_name = re.sub(r'[^a-z0-9\s,]', '', cleaned_name)  # Remove special characters except spaces and commas
-    cleaned_name = re.sub(r',+', '', cleaned_name) # Remove multiple commas
-    cleaned_name = re.sub(r'\s{2,}', ' ', cleaned_name) # Remove multiple spaces
+    if not product_name:
+        return ""
 
-    # Remove noise words
+    cleaned_name = product_name.lower().strip()
+
+    cleaned_name = remove_duplicate_product_name(cleaned_name)
+
+    # Handle common artifacts like 'x000d'
+    cleaned_name = re.sub(r'(\\x[0-9a-fA-F]{2,4}|x000d|\\r|\\n)', ' ', cleaned_name)
+
+    # Remove any special characters except alphanumerics and space
+    cleaned_name = re.sub(r'[^a-z0-9\s]', ' ', cleaned_name)
+
+    # Remove extra whitespace
+    cleaned_name = re.sub(r'\s+', ' ', cleaned_name)
+
+    # Remove noise words (case-insensitive full word match)
     noise_terms = [
         'brand name', 'xyz brand', 'retail brand', 'electronics brand',
         'certified refurbished', 'includes special offers',
@@ -24,13 +64,15 @@ def util_clean_product_name(product_name: str) -> str:
         'new', 'brand new', 'official oem', 'product name'
     ]
 
+    # Replace noise terms
     for term in noise_terms:
-        cleaned_name = cleaned_name.replace(term, '')
+        cleaned_name = re.sub(rf'\b{re.escape(term)}\b', '', cleaned_name)
 
-    # Sanity cleaning
-    cleaned_name = re.sub(r'\s{2,}', ' ', cleaned_name)
-    cleaned_name = re.sub(r'[^\w\s]', '', cleaned_name)  
+    # Final whitespace cleanup
+    cleaned_name = re.sub(r'\s+', ' ', cleaned_name)
+
     return cleaned_name.strip()
+
 
 def util_clean_category(category: str) -> str:
     """
@@ -47,7 +89,7 @@ def util_clean_category(category: str) -> str:
     brand_patterns = r"(all.*?|walmart.*?|target.*?|mazon.co.uk|retail brand.*?|xyz.*?|brand name.*?|see more.*?)(,|$)"
 
     cleaned_category = re.sub(brand_patterns, '', cleaned_category)
-    cleaned_category = re.sub(r'[^a-z0-9\s]', '', cleaned_category)  # Remove special characters except spaces
+    # cleaned_category = re.sub(r'[^a-z0-9\s]', '', cleaned_category)  # Remove special characters except spaces
     cleaned_category = re.sub(r'\s{2,}', ' ', cleaned_category)  # Remove multiple spaces
     cleaned_category = re.sub(r'\s+', ' ', cleaned_category)  # Remove extra spaces
     cleaned_category = cleaned_category.strip()

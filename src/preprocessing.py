@@ -13,7 +13,7 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     df = drop_columns(df, ["source", "date", "didPurchase"])
-    df = drop_rows_with_missing_values(df, ["product", "category", "reviews"])
+    df = drop_rows_with_missing_values(df, ["product", "categories", "reviews"])
     df = handle_missing_ratings(df)
     df = handle_missing_doRecommend(df)
     df = handle_missing_title(df)

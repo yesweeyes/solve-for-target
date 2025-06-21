@@ -15,6 +15,11 @@ def feature_engineering(df: pd.DataFrame) -> pd.DataFrame:
 
     df = clean_product_name(df)
     df = normalize_category(df)
+    df = create_feedback_column(df)
+    # todo: check if column categories must be dropped for duplicates
+    # todo: handle metrics of the duplicate product that will be dropped
+    # df = df.drop_duplicates(subset=['product']) 
+    df = df.drop(columns=['title', 'reviews'], errors='ignore')
 
     return df
 
@@ -51,14 +56,15 @@ def normalize_category(df: pd.DataFrame) -> pd.DataFrame:
     df['categories'] = df['categories'].apply(utils.util_normalize_category_list)
 
     # Same products can have multiple categories, so we merge them into a single list
-    def merge_categories(series_of_category):
-        all_tags = set()
-        for tags in series_of_category:
-            all_tags.update(tags)
-        return list(all_tags)
+    # Losing data on merge
+    # def merge_categories(series_of_category):
+    #     all_tags = set()
+    #     for tags in series_of_category:
+    #         all_tags.update(tags)
+    #     return list(all_tags)
     
-    merged = df.groupby('product').agg({'categories': merge_categories}).reset_index()
-    df = df.drop('categories', axis=1).merge(merged, on='product', how='left')
+    # merged = df.groupby('product').agg({'categories': merge_categories}).reset_index()
+    # df = df.drop('categories', axis=1).merge(merged, on='product', how='left')
     
     return df
 
