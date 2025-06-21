@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}📊 Product Summary{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    canvas { max-width: 100%; margin-bottom: 50px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>📈 Interactive Summary Dashboard</h1>
+
+<h3>⭐ Average Ratings per Category</h3>
+<canvas id="ratingsChart"></canvas>
+
+<h3>😊 Average Sentiment per Category</h3>
+<canvas id="sentimentChart"></canvas>
+
+<h3>👍 Recommendation % per Category</h3>
+<canvas id="recommendChart"></canvas>
+
+<script>
+    const labels = {{ categories | tojson }};
+    const ratings = {{ ratings | tojson }};
+    const sentiments = {{ sentiments | tojson }};
+    const recommends = {{ recommends | tojson }};
+
+    new Chart(document.getElementById('ratingsChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Avg Rating',
+                backgroundColor: '#007bff',
+                data: ratings
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('sentimentChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Avg Sentiment',
+                backgroundColor: '#28a745',
+                data: sentiments
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                    ticks: {
+                        stepSize: 0.2,
+                        precision: 1
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('recommendChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Recommend %',
+                backgroundColor: '#ffc107',
+                data: recommends
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 10,
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

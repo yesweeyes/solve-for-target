@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Product Dashboard{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar {
+            background-color: #cc0000;
+        }
+        .navbar .nav-link, .navbar .navbar-brand {
+            color: white;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- 🔗 Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">🎯 Solve for Target</a>
+        <div class="navbar-nav">
+            <a class="nav-link" href="/">Best Selling Products</a>
+            <a class="nav-link" href="/least">Least Selling Products</a>
+            <a class="nav-link" href="/summary">Data Visualization</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

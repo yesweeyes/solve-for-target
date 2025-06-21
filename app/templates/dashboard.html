@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section_title }}{% endblock %}
+
+{% block content %}
+<h2 class="section-title">{{ section_title }}</h2>
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-6">
+        <div class="card p-3">
+            {% if show_recommendation and product.avg_doRecommend|float == 1 %}
+                <div class="recommended">Recommended</div>
+            {% endif %}
+            <h5 class="mt-2">{{ product.product }}</h5>
+            <p><strong>Ratings:</strong>
+                <span class="rating">
+                    {% for i in range(product.avg_rating|round(0, 'floor')|int) %}
+                        ★
+                    {% endfor %}
+                </span>
+            </p>
+            <p><strong>Category:</strong> {{ product.categories }}</p>
+            <p><strong>Reviews 🗣️:</strong>{{ product.sample_feedback[:200] }}{% if product.sample_feedback|length > 200 %}...{% endif %}</p>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
