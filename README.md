@@ -18,6 +18,10 @@
 
 ## Getting Started
 
+### Documentation
+
+[Here](https://yesweeyes.notion.site/Solve-For-Target-Documentation-21912c3598cd807b9273d390994246c0)
+
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
@@ -34,9 +38,6 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Review the problem statements in the `docs/` directory.
-2. Run the main application:
-
-   ```bash
-   uvicorn app.main:app --reload
-   ```
+```bash
+uvicorn app.main:app --reload
+```
