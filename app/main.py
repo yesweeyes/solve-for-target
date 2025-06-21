@@ -39,15 +39,13 @@ def least_selling(request: Request):
 def summary_view(request: Request):
     df = pd.read_csv(DATA_DIR / "summary.csv")
 
-    # Parse stringified list
     df["categories"] = df["categories"].apply(ast.literal_eval)
 
-    # Explode
+
     df = df.explode("categories")
     df["categories"] = df["categories"].str.strip().str.lower()
-    df = df[df["categories"] != ""]  # Remove empty values
+    df = df[df["categories"] != ""]  
 
-    # Group and aggregate
     grouped = df.groupby("categories").agg({
         "avg_rating": "mean",
         "avg_sentiment": "mean",
@@ -56,7 +54,6 @@ def summary_view(request: Request):
 
     grouped = grouped.round(2)
 
-    # Prepare for Chart.js
     categories = grouped["categories"].tolist()
     ratings = grouped["avg_rating"].tolist()
     sentiments = grouped["avg_sentiment"].tolist()
@@ -69,3 +66,10 @@ def summary_view(request: Request):
         "sentiments": sentiments,
         "recommends": recommends
     })
+
+@app.get("/submitted")
+def submitted_by(request: Request):
+    return templates.TemplateResponse("submitted_by.html", {
+        "request": request
+    })
+
