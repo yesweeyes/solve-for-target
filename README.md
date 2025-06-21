@@ -8,9 +8,6 @@
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Features
 
@@ -24,7 +21,7 @@
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
-- [Python 3.8+](https://www.python.org/) (or relevant language/runtime)
+- [Python 3.10+](https://www.python.org/) (or relevant language/runtime)
 - Any additional dependencies listed in `requirements.txt`
 
 ### Installation
